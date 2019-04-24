@@ -12,10 +12,16 @@ public class NewsImpleDB implements NewsInterface {
 	Connection conn = null;
 
 	public NewsImpleDB(String string) {
-		System.out.println("Conectando con SQLite");
-		ConectaBD(string);
+		String tipo = string.split(":")[1];
+		if (tipo.equals("sqlite")) {
+			System.out.println("Es un SQLite");
+			ConectaBD(string);
+		}
+		if (tipo.equals("mysql")) {
+			System.out.println("Es un MySQL");
+			ConectaBD(string);			
+		}
 	}
-
 	private ResultSet dameTabla() {
 		Statement s;
 		ResultSet rs = null;
@@ -46,7 +52,7 @@ public class NewsImpleDB implements NewsInterface {
 		List<New> lista = new ArrayList<New>();
 		try {
 			while (rs.next()) {
-				New n = new New();
+				New n = new New();				
 				n.setTitle(rs.getString("title"));
 				n.setSlug(rs.getString("slug"));
 				n.setDescription(rs.getString("text"));
